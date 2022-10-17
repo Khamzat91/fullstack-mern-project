@@ -1,5 +1,5 @@
 {
     "port": 5000,
     "jwtSecret": "khamzat mern",
-    "mongoUri": "mongodb+srv://khamzat:<123abc>@cluster0.z0i1le5.mongodb.net/app?retryWrites=true&w=majority"
+    "mongoUri": "mongodb+srv://khamzat:1234qwer@cluster0.omkpkk4.mongodb.net/?retryWrites=true&w=majority"
 }
