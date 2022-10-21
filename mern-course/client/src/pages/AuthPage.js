@@ -26,6 +26,13 @@ export const AuthPage = () => {
       message(data.message)
     } catch (e) {}
   };
+
+  const loginHandler = async () => {
+    try {
+      const data = await request("/api/auth/login", "POST", { ...form });
+      message(data.message)
+    } catch (e) {}
+  };
   return (
     <div className="row">
       <div className="col s6 offset-s3">
@@ -43,7 +50,7 @@ export const AuthPage = () => {
                   className="yellow-input"
                   onChange={changeHandler}
                 />
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
               </div>
               <div className="input-field">
                 <input
@@ -54,7 +61,7 @@ export const AuthPage = () => {
                   className="yellow-input"
                   onChange={changeHandler}
                 />
-                <label for="password">Пароль</label>
+                <label htmlFor="password">Пароль</label>
               </div>
             </div>
           </div>
@@ -63,6 +70,7 @@ export const AuthPage = () => {
               className="btn yellow darken-4"
               style={{ marginRight: 10 }}
               disabled={loading}
+              onClick={loginHandler}
             >
               Войти
             </button>

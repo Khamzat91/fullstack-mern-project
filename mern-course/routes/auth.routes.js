@@ -20,8 +20,17 @@ router.post(
       const errors = validationResult(req);
 
       if (errors.isEmpty()) {
+        return res
+        .status(400)
+        .json({ message: "Такой пользователь уже существует" });
+
+      }
+
+      const { email, password } = req.body;
+      const candedate = await User.findOne({ email });
+      if (candedate) {
         return (
-          res.status(400),
+          res.status(400).
           json({
             errors: errors.array(),
             message: "Некорректные данные при регистрации",
@@ -29,23 +38,12 @@ router.post(
         );
       }
 
-      const { email, password } = req.body;
-
-      const candedate = await User.findOne({ email });
-      if (candedate) {
-        return res
-          .status(400)
-          .json({ message: "Такой пользователь уже существует" });
-      }
-
       const hashedPassword = await bcrypt.hash(password, 12);
       const user = new User({ email, password: hashedPassword });
-
       await user.save();
-
       res.status(201).json({ message: "Пользователь создан" });
     } catch (e) {
-      res.status(500).json({ message: "Что-то пошло не так" });
+      res.status(500).json({ message: e.message || "Что-то пошло не так" });
     }
   }
 );
@@ -63,7 +61,7 @@ router.post(
 
       if (errors.isEmpty()) {
         return (
-          res.status(400),
+          res.status(400).
           json({
             errors: errors.array(),
             message: "Некорректные данные при входе в систему",

@@ -14,7 +14,7 @@ const [error, setError] = useState(null)
           headers['Content-Type'] = 'application/json'
         }
         const response = await fetch(url, { method, body, headers });
-        const data = response.json();
+        const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || "Что-то пошло не так");
         }
