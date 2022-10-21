@@ -19,16 +19,7 @@ router.post(
     try {
       const errors = validationResult(req);
 
-      if (errors.isEmpty()) {
-        return res
-        .status(400)
-        .json({ message: "Такой пользователь уже существует" });
-
-      }
-
-      const { email, password } = req.body;
-      const candedate = await User.findOne({ email });
-      if (candedate) {
+      if (!errors.isEmpty()) {
         return (
           res.status(400).
           json({
@@ -36,6 +27,14 @@ router.post(
             message: "Некорректные данные при регистрации",
           })
         );
+      }
+
+      const { email, password } = req.body;
+      const candedate = await User.findOne({ email });
+      if (candedate) {
+        return res
+        .status(400)
+        .json({ message: "Такой пользователь уже существует" });
       }
 
       const hashedPassword = await bcrypt.hash(password, 12);
