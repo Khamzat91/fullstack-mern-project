@@ -5,7 +5,7 @@ import { useMessage } from "../hooks/message.http";
 import "../index.css";
 
 export const AuthPage = () => {
-  const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext);
   const message = useMessage();
   const { loading, error, request, clearError } = useHttp();
   const [form, setForm] = React.useState({
@@ -18,6 +18,10 @@ export const AuthPage = () => {
     clearError();
   }, [error, message, clearError]);
 
+  React.useEffect(() => {
+    window.M.updateTextFields();
+  }, []);
+
   const changeHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -25,14 +29,14 @@ export const AuthPage = () => {
   const registerHandler = async () => {
     try {
       const data = await request("/api/auth/register", "POST", { ...form });
-      message(data.message)
+      message(data.message);
     } catch (e) {}
   };
 
   const loginHandler = async () => {
     try {
       const data = await request("/api/auth/login", "POST", { ...form });
-      auth.login(data.token, data.userId)
+      auth.login(data.token, data.userId);
     } catch (e) {}
   };
   return (
